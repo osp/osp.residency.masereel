@@ -1,18 +1,24 @@
 #!/bin/bash 
 
-
-CURDIR=$1
-
-MYARRAY=($(ls -l $CURDIR| cut -f6 -d" " | sort -n))
-START=${MYARRAY[0]}
-END=${MYARRAY[-1]}
-
-echo $CURDIR $START $END
-
-#lister les infos de chaque dossier contenus dans la liste des dossiers
-
-#dans le 6e field celui de la date, 
-#trier par ordre chronologique,
-#extraire le premier et le dernier de la liste chronologique
+#echo "====" $1 "========================================================="
+#tmp=$1
+#CURFILE=$tmp
 
 
+CURDIR=$1 ; 
+MYARRAY=$(ls -l $CURDIR  |  sed -r 's/ +/ /g' | grep -Ev '^d' | cut -f5 -d" ")
+#echo "=========================="
+TOTALSIZE=0
+for i in $MYARRAY
+do
+#	echo ${i}
+	TOTALSIZE=$(( $TOTALSIZE + ${i} ))
+done
+#echo "=========================="
+echo $CURDIR $TOTALSIZE
+
+# lister chaque fichier contenu dans le dossier (pas les sous-dossiers)
+# additionner leur poids
+# assigner le résultat de cette addition au dossier
+
+# find . -type f -exec ../osp.residency.masereel/sizes.sh {} \;  
