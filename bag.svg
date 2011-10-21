@@ -62,9 +62,33 @@
      id="layer1">
     <path
        id="path3757"
-       style="fill:#ffc30f;fill-opacity:1;stroke:none"
+       style="fill:#00ff00;fill-opacity:1;stroke:#00ff00"
        d="m 263.03799,504.91436 c 13.18141,-2.67969 32.64603,-3.1073 39.4557,-2.19199 4.13622,0.55596 8.91462,10.26057 4.93197,11.50792 -9.53781,2.98721 -34.52374,1.64398 -43.83967,1.09599 -9.31593,-0.548 -3.95378,-9.71955 -0.548,-10.41192 z m -38.64616,-4.31262 c -1.54996,22.08702 -11.40917,16.22624 -11.40917,42.18818 0,6.49048 -1.97154,25.67377 -1.38387,38.50291 0.43655,9.53001 1.38626,22.4301 3.63856,28.38778 2.25229,5.95768 3.82246,12.63492 4.18038,19.16301 0.14842,2.70716 -2.30749,5.86058 -0.8544,8.08866 2.90618,4.45615 113.25983,7.35303 140.53205,0.80158 5.02888,-1.20805 1.81365,-5.02712 2.03063,-7.65959 2.02977,-24.62557 -0.76907,-48.37327 -7.00711,-73.79531 -6.76101,-27.55332 -6.65984,-49.9924 -7.66722,-61.52854 -46.6535,-3.13288 -122.05985,5.85132 -122.05985,5.85132 z"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ssssscsasassascc" />
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#00ff00;fill-opacity:1;stroke:#00ff00;stroke-width:13.39999962;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Sans"
+       x="208.2384"
+       y="576.7019"
+       id="text3781"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3783"
+         x="208.2384"
+         y="576.7019"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;fill:#00ff00;stroke:#00ff00;stroke-width:13.39999962;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Century Schoolbook L;-inkscape-font-specification:Century Schoolbook L Medium">Videos</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text3785"
+       y="578.97034"
+       x="212.19849"
+       style="font-size:34.89897537px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-family:Century Schoolbook L;-inkscape-font-specification:Century Schoolbook L Medium"
+         y="578.97034"
+         x="212.19849"
+         id="tspan3787"
+         sodipodi:role="line">Century</tspan></text>
   </g>
 </svg>
