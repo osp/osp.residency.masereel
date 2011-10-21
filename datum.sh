@@ -9,10 +9,16 @@ for i in $MYARRAY
 do 
 	COUNT=$COUNT+1
 done
-if $COUNT=0
-then draw me a black hole
-START=${MYARRAY[0]}
-END=${MYARRAY[-1]}
+
+
+START=future
+END=future
+
+if [[ $COUNT -gt 0 ]]
+then 
+	START=${MYARRAY[0]}
+	END=${MYARRAY[-1]}
+fi
 
 echo $CURDIR $START $END
 
@@ -20,5 +26,3 @@ echo $CURDIR $START $END
 #dans le 6e field celui de la date, 
 #trier par ordre chronologique,
 #extraire le premier et le dernier de la liste chronologique
-
-
