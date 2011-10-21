@@ -34,7 +34,7 @@ data =  [
 def drawBag (p, w, h, r, c):
     bag = plot.path (color = c)
     
-    ro = r * h * 0.5 # Get roundness offset
+    ro = r * (1/h) * 0.5 # Get roundness offset
 
     # Uppercase commands are absolute, lowercase relative
 
@@ -79,7 +79,7 @@ def getHeight (data):
     return 20
 
 def getRoundness (data):
-    return 0.3
+    return 0.45
 
 def getColor (data):
     return "black"
