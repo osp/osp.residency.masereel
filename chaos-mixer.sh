@@ -1,27 +1,27 @@
 #!/bin/bash 
 
 CURDIR=$1
-COUNT=$(ls $CURDIR | wc -w )
+COUNT1=$(ls $CURDIR | wc -w )
 
-MYARRAY=($(ls -l $CURDIR| cut -f6 -d" " | sort -n))
-COUNT=0
-for i in $MYARRAY
+MYARRAY1=($(ls -l $CURDIR| cut -f6 -d" " | sort -n))
+COUNT2=0
+for i in $MYARRAY1
 do 
-	COUNT=$COUNT+1
+	COUNT2=$(( $COUNT2 + 1 ))
 done
-
 START=future
 END=future
-if [[ $COUNT -gt 0 ]]
+if [[ $COUNT2 -gt 0 ]]
 then 
-	START=${MYARRAY[0]}
-	END=${MYARRAY[-1]}
+	START=${MYARRAY1[0]}
+	END=${MYARRAY1[-1]}
 fi
-MYARRAY=$(ls -l $CURDIR  |  sed -r 's/ +/ /g' | grep -Ev '^d' | cut -f5 -d" ")
+
+SIZES=$(ls -l $CURDIR  |  sed -r 's/ +/ /g' | grep -Ev '^d' | cut -f5 -d" ")
 TOTALSIZE=0
-for i in $MYARRAY
+for i in $SIZES
 do
 	TOTALSIZE=$(( $TOTALSIZE + ${i} ))
 done
 
-echo $CURDIR $COUNT $START $END $TOTALSIZE
+echo $CURDIR $COUNT1 $COUNT2 $START $END $TOTALSIZE
