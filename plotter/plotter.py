@@ -42,19 +42,19 @@ def drawBag (p, w, h, r, c):
     bag.push ("M " + str(p[0]) + " " + str(p[1]))
     
     # Top
-    bag.push ("c " + str(ro) + " -" + str(ro) + " "      # First control point
-              + str(w - ro) + " -" + str(ro) + " "       # Second control point
+    bag.push ("c " + str(ro) + " " + str(-1 * ro) + " "      # First control point
+              + str(w - ro) + " " + str(-1 * ro) + " "       # Second control point
               + str(w) + " 0 ")     # End of curve
     
     # Right
     bag.push ("s " + str(ro) + " " + str(h - ro) + " "  # Control point
               + "0 " + str(h))                          # End of curve  
     # Bottom
-    bag.push ("s -" + str(w - ro) + " " + str(ro) + " " # Control point
+    bag.push ("s " + str(-1 * (w - ro)) + " " + str(ro) + " " # Control point
               + "-" + str(w) + " 0 ")                   # End of curve
 
     # Left
-    bag.push ("s -" + str(ro) + " -" + str(h - ro) + " " # Control point
+    bag.push ("s " + str(-1 * ro) + " " + str(-1 * (h - ro)) + " " # Control point
               + "0 -" + str(h))                         # End of curve 
 
     
@@ -79,7 +79,7 @@ def getHeight (data):
     return 20
 
 def getRoundness (data):
-    return 0.3
+    return 1
 
 def getColor (data):
     return "black"
