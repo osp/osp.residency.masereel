@@ -1,6 +1,9 @@
+# -*- coding: utf-8 -*-
 import svgwrite
 from math import ceil
 from datetime import *
+import re
+import codecs
 
 # Expected input
 # data {
@@ -11,12 +14,13 @@ from datetime import *
 # }
 
 timefrm = '%Y-%m-%d %H:%M'
-outputSize = (500, 500) # [width, height]
+outputSize = (1500, 1500) # [width, height]
 timeGrid = [datetime.strptime ('1998-01-01 00:00', timefrm), datetime.today()]
 gridTimeSpan = timeGrid[1] - timeGrid[0]
 pixelGrid = ((0,0), outputSize) # (x,y), (x,y)
 
 resultfile = "plot.svg"
+filepath = "output.sh"
 
 plot = svgwrite.Drawing (filename = resultfile, size = (pixelGrid[1][0], pixelGrid[1][1]), viewBox = str (pixelGrid[0][0]) + " " + str (pixelGrid[0][1]) + " " + str (pixelGrid[1][0]) + " " + str (pixelGrid[1][1]))
 
@@ -63,7 +67,7 @@ def drawBag (p, w, h, r, c):
     plot.add (bag)
 
 def getPosition (data):
-    timeOffset = data['creationDate'] - timeGrid[0]
+    timeOffset = data[3] - timeGrid[0]
     	
     x = ceil ((float (timeOffset.days) / float (gridTimeSpan.days)) * outputSize[1])
     y = outputSize[1] / 2
@@ -71,7 +75,7 @@ def getPosition (data):
     return (x, y) 
 
 def getWidth (data):
-    timeSpan = data['maxDate'] - data['creationDate']
+    timeSpan = data[4] - data[3]
 
     return ceil ((float (timeSpan.days) / float(gridTimeSpan.days)) * outputSize[1])
 
@@ -79,15 +83,65 @@ def getHeight (data):
     return 20
 
 def getRoundness (data):
-    return 1
+    return 0.2
 
 def getColor (data):
     return "black"
 
+def parsefonts (data):
+    result = {}    
+    
+    chunks = data.split ('‽')
+    
+    for chunk in chunks:
+        elements = chunk.split ('‼')
+        if len(elements) > 1 :
+           filename = elements[0]
+           fonts = elements[1].split ('⁇')
+
+           result[filename] = fonts
+
+    return result
+
+#   |   
+#   |   Actual script
+#   V
+
+data_input = open (filepath)
+
+# Expected elements
+# 0 $CURDIR 
+# 1 $COUNT1
+# 2 $TOTALSIZE
+# 3 $START
+# 4 $END
+# 5 $EXTS
+# 6 $PDFFONTS
+
+data = []
+
+# Parses the lines into readable data
+for line in data_input:
+    elements = line.split (';')
+    elements = [element.strip(' ') for element in elements] # Strip space from all the elements
+
+    if (len (elements) == 7):
+        if (re.match ('^\d{4}-\d{2}-\d{2}$', elements[3])): 
+            elements[3] = datetime.strptime ('{0} 00:00'.format(elements[3]), timefrm)
+        if (re.match ('^\d{4}-\d{2}-\d{2}$', elements[4])): 
+            elements[4] = datetime.strptime ('{0} 00:00'.format(elements[4]), timefrm)
+        elements[5] = elements[5].rstrip('\n').split (':')
+        elements[6] = parsefonts (elements[6]) # Parse the fonts
+        data.append (elements)
+
+# Walk throuhg the lines and draw!
 for line in data:
-    line['maxDate'] = datetime.strptime (line['maxDate'], timefrm)
-    line['creationDate'] = datetime.strptime (line['creationDate'], timefrm)
-    drawBag (p = getPosition (line), w = getWidth (line), h = getHeight (line), r = getRoundness(line), c = getColor (line))
+    if (isinstance(line[3], datetime) and isinstance(line[4], datetime)):
+        #drawBag (p = getPosition (line), w = getWidth (line), h = getHeight (line), r = getRoundness(line), c = getColor (line))
+        insert = getPosition (line)
+        plot.add(plot.text(text = line[0], insert=insert, transform="rotate(-90,{0},{1})".format(insert[0], insert[1])))
 
-plot.save ()
-
+# Save file, with respect to UTF-8 encoding
+output = codecs.open(resultfile, "w", "UTF-8")
+output.write(plot.tostring())
+output.close()
