@@ -24,4 +24,12 @@ do
 	TOTALSIZE=$(( $TOTALSIZE + ${i} ))
 done
 
-echo $CURDIR $COUNT1 $COUNT2 $START $END $TOTALSIZE
+MYSEP=''
+EXTS=''
+for i in $(find $CURDIR -maxdepth 1 -type f)
+do
+	EXTS=${EXTS}${MYSEP}$(basename "$i" | sed -r 's/.+\.(.̉*)/\1/')
+	MYSEP=':'
+done
+
+echo $CURDIR ';' $COUNT1 ';' $TOTALSIZE ';' $START ';' $END ';' $EXTS
