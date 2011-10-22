@@ -32,4 +32,18 @@ do
 	MYSEP=':'
 done
 
-echo $CURDIR ';' $COUNT1 ';' $TOTALSIZE ';' $START ';' $END ';' $EXTS
+SCRIPT=<<EOF
+fn=$argv[1]
+names=FontsInFile(fn)
+Print(StrJoin(names, "⁇"))
+EOF
+
+PDFS=$(ls $CURDIR | grep *.pdf)
+PDFFONTS=''
+for i in $PDFS
+do
+    PDFFONTS=${PDFFONTS}‽$CURDIR/$i‼$(fontforge -lang=ff -c "Print(StrJoin(FontsInFile('$CURDIR/$i'), '⁇'))")
+	
+done
+
+echo $CURDIR ';' $COUNT1 ';' $TOTALSIZE ';' $START ';' $END ';' $EXTS ';' $PDFFONTS
