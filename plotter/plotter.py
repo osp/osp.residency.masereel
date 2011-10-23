@@ -141,7 +141,6 @@ fontcounter = {}
 
 # Walk throuhg the lines and draw!
 for line in data:
-<<<<<<< HEAD
     #if (isinstance(line[3], datetime) and isinstance(line[4], datetime)):
         #drawBag (p = getPosition (line), w = getWidth (line), h = getHeight (line), r = getRoundness(line), c = getColor (line))
         #insert = getPosition (line)
@@ -165,13 +164,6 @@ for line in data:
 
 for fontname in fontcounter:
     amount = fontcounter[fontname]
-
-=======
-    if (isinstance(line[3], datetime) and isinstance(line[4], datetime)):
-        drawBag (p = getPosition (line), w = getWidth (line), h = getHeight (line), r = getRoundness(line), c = getColor (line))
-        insert = getPosition (line)
-        #plot.add(plot.text(text = line[0], insert=insert, transform="rotate(-90,{0},{1})".format(insert[0], insert[1])))
->>>>>>> 163b5d0f2cd4f5f95539765cc33e1a2dfdf4b20a
 
 # Save file, with respect to UTF-8 encoding
 #output = codecs.open(resultfile, "w", "UTF-8")
