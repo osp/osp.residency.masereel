@@ -88,6 +88,8 @@ def getRoundness (data):
 def getColor (data):
     return "rgb(255,204,153)"
 
+#‽/path/to/file.pdf‼font1⁇font2⁇font3‽/path/to/file2.pdf‼font1⁇font2
+
 def parsefonts (data):
     result = {}    
     
@@ -135,14 +137,35 @@ for line in data_input:
         data.append (elements)
 	print elements
 
+fontcounter = {}
+
 # Walk throuhg the lines and draw!
 for line in data:
-    if (isinstance(line[3], datetime) and isinstance(line[4], datetime)):
-        drawBag (p = getPosition (line), w = getWidth (line), h = getHeight (line), r = getRoundness(line), c = getColor (line))
-        insert = getPosition (line)
+    #if (isinstance(line[3], datetime) and isinstance(line[4], datetime)):
+        #drawBag (p = getPosition (line), w = getWidth (line), h = getHeight (line), r = getRoundness(line), c = getColor (line))
+        #insert = getPosition (line)
         #plot.add(plot.text(text = line[0], insert=insert, transform="rotate(-90,{0},{1})".format(insert[0], insert[1])))
 
+    # \+(.[^\+]*)$
+
+    if (len(line[6]) > 0):
+        for filename in line[6]:
+            for fontname in line[6][filename]:
+                if (re.match ('^.[^\+]*\+(.[^\+]*)$', fontname)):
+                    fontname = re.search ('^.[^\+]*\+(.[^\+]*)$', fontname).group(1)
+                
+                fontname = fontname.lower()
+
+                if (fontcounter.has_key (fontname)):
+                    fontcounter[fontname] += 1
+                else:
+                    fontcounter[fontname] = 1
+
+
+for fontname in fontcounter:
+    amount = fontcounter[fontname]
+
 # Save file, with respect to UTF-8 encoding
-output = codecs.open(resultfile, "w", "UTF-8")
-output.write(plot.tostring())
-output.close()
+#output = codecs.open(resultfile, "w", "UTF-8")
+#output.write(plot.tostring())
+#output.close()
