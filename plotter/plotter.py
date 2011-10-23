@@ -80,13 +80,13 @@ def getWidth (data):
     return ceil ((float (timeSpan.days) / float(gridTimeSpan.days)) * outputSize[1])
 
 def getHeight (data):
-    return 20
+    return 90
 
 def getRoundness (data):
-    return 0.2
+    return 0.07
 
 def getColor (data):
-    return "black"
+    return "rgb(255,204,153)"
 
 def parsefonts (data):
     result = {}    
@@ -133,13 +133,14 @@ for line in data_input:
         elements[5] = elements[5].rstrip('\n').split (':')
         elements[6] = parsefonts (elements[6]) # Parse the fonts
         data.append (elements)
+	print elements
 
 # Walk throuhg the lines and draw!
 for line in data:
     if (isinstance(line[3], datetime) and isinstance(line[4], datetime)):
-        #drawBag (p = getPosition (line), w = getWidth (line), h = getHeight (line), r = getRoundness(line), c = getColor (line))
+        drawBag (p = getPosition (line), w = getWidth (line), h = getHeight (line), r = getRoundness(line), c = getColor (line))
         insert = getPosition (line)
-        plot.add(plot.text(text = line[0], insert=insert, transform="rotate(-90,{0},{1})".format(insert[0], insert[1])))
+        #plot.add(plot.text(text = line[0], insert=insert, transform="rotate(-90,{0},{1})".format(insert[0], insert[1])))
 
 # Save file, with respect to UTF-8 encoding
 output = codecs.open(resultfile, "w", "UTF-8")
