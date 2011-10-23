@@ -1,0 +1,93 @@
+import svgwrite
+from math import ceil
+from datetime import *
+
+# Expected input
+# data {
+#   'creationDate': %Y-%m-%d %H:%M
+#   'maxDate': %Y-%m-%d %H:%M
+# ? 'roundness': [0-1]
+#
+# }
+
+timefrm = '%Y-%m-%d %H:%M'
+outputSize = (500, 500) # [width, height]
+timeGrid = [datetime.strptime ('1998-01-01 00:00', timefrm), datetime.today()]
+gridTimeSpan = timeGrid[1] - timeGrid[0]
+pixelGrid = ((0,0), outputSize) # (x,y), (x,y)
+
+resultfile = "plot.svg"
+
+plot = svgwrite.Drawing (filename = resultfile, size = (pixelGrid[1][0], pixelGrid[1][1]), viewBox = str (pixelGrid[0][0]) + " " + str (pixelGrid[0][1]) + " " + str (pixelGrid[1][0]) + " " + str (pixelGrid[1][1]))
+
+data =  [
+            {'creationDate' : '2001-04-04 04:04', 'maxDate' : '2007-05-05 05:05'},
+            {'creationDate' : '1998-04-04 04:04', 'maxDate' : '1998-05-05 05:05'},
+            {'creationDate' : '2004-04-04 04:04', 'maxDate' : '2005-05-05 05:05'}
+        ]
+
+
+##  |   
+##  |   Functions
+##  v
+
+def drawBag (p, w, h, r, c):
+    bag = plot.path (color = c)
+    
+    ro = r * h * 0.5 # Get roundness offset
+
+    # Uppercase commands are absolute, lowercase relative
+
+    # Move to beginning of bag
+    bag.push ("M " + str(p[0]) + " " + str(p[1]))
+    
+    # Top
+    bag.push ("c " + str(ro) + " " + str(-1 * ro) + " "      # First control point
+              + str(w - ro) + " " + str(-1 * ro) + " "       # Second control point
+              + str(w) + " 0 ")     # End of curve
+    
+    # Right
+    bag.push ("s " + str(ro) + " " + str(h - ro) + " "  # Control point
+              + "0 " + str(h))                          # End of curve  
+    # Bottom
+    bag.push ("s " + str(-1 * (w - ro)) + " " + str(ro) + " " # Control point
+              + "-" + str(w) + " 0 ")                   # End of curve
+
+    # Left
+    bag.push ("s " + str(-1 * ro) + " " + str(-1 * (h - ro)) + " " # Control point
+              + "0 -" + str(h))                         # End of curve 
+
+    
+    bag.push ("Z")
+
+    plot.add (bag)
+
+def getPosition (data):
+    timeOffset = data['creationDate'] - timeGrid[0]
+    	
+    x = ceil ((float (timeOffset.days) / float (gridTimeSpan.days)) * outputSize[1])
+    y = outputSize[1] / 2
+
+    return (x, y) 
+
+def getWidth (data):
+    timeSpan = data['maxDate'] - data['creationDate']
+
+    return ceil ((float (timeSpan.days) / float(gridTimeSpan.days)) * outputSize[1])
+
+def getHeight (data):
+    return 20
+
+def getRoundness (data):
+    return 1
+
+def getColor (data):
+    return "black"
+
+for line in data:
+    line['maxDate'] = datetime.strptime (line['maxDate'], timefrm)
+    line['creationDate'] = datetime.strptime (line['creationDate'], timefrm)
+    drawBag (p = getPosition (line), w = getWidth (line), h = getHeight (line), r = getRoundness(line), c = getColor (line))
+
+plot.save ()
+
