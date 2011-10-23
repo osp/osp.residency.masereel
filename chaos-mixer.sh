@@ -38,12 +38,10 @@ names=FontsInFile(fn)
 Print(StrJoin(names, "⁇"))
 EOF
 
-PDFS=$(ls $CURDIR | grep *.pdf)
 PDFFONTS=''
-for i in $PDFS
+for i in $(find $CURDIR -maxdepth 1 -type f -iname *.pdf)
 do
-    PDFFONTS=${PDFFONTS}‽$CURDIR/$i‼$(fontforge -lang=ff -c "Print(StrJoin(FontsInFile('$CURDIR/$i'), '⁇'))")
-	
+    PDFFONTS=${PDFFONTS}‽$i‼$(fontforge -lang=ff -c "Print(StrJoin(FontsInFile('$i'), '⁇'))")	
 done
 
 echo $CURDIR ';' $COUNT1 ';' $TOTALSIZE ';' $START ';' $END ';' $EXTS ';' $PDFFONTS
